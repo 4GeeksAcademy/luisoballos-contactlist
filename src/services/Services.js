@@ -17,8 +17,10 @@ export const Services = {
     try {
       const request = await fetch(BASE_URL, {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
       });
-      return [];
+      const response = await request.json();
+      return response;
     } catch (e) {
       console.error("Error creating agenda: ", e);
     }
@@ -28,7 +30,7 @@ export const Services = {
     try {
       const request = await fetch(`${BASE_URL}/contacts`);
       const response = await request.json();
-      return response.contacts || [];
+      return response;
     } catch (e) {
       console.error("Error fetching contacts: ", e);
         return [];

@@ -4,7 +4,6 @@ export const Navbar = () => {
 
 	return (
 		<>
-			<h1>Luis Oballos' contact list</h1>
 			<nav className="navbar navbar-light bg-light">
 				<div className="container">
 					<Link to="/contacts">

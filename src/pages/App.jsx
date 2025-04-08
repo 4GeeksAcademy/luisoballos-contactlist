@@ -1,49 +1,61 @@
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
-import ContactList from "../components/ContactList";
-import { Services } from "../services/Services.js";
+import { Services, SLUG } from "../services/Services.js";
 import { useState, useEffect } from "react";
+import { Navbar } from "../components/Navbar.jsx";
 
 export const App = () => {
   const { store, dispatch } = useGlobalReducer();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newContact, setNewContact] = useState({
-    full_name: "",
+    name: "",
     email: "",
     phone: "",
     address: "",
   });
 
   useEffect(() => {
-    handleFetchAgenda().catch((error) =>
-      console.error("Fetch agenda error:", error)
-    );
+    handleFetchAgenda()
   }, []);
 
   const handleFetchAgenda = async () => {
     try {
       const agenda = await Services.fetchAgenda();
-      dispatch({ type: "fetchAgenda", payload: { agenda } });
-    } catch (error) {
-      console.error("Error fetching agenda:", error);
+      console.log("Agenda fetched: ", agenda);
+      dispatch({ type: "fetchAgenda", contacts: agenda.contacts });
+      if (agenda?.slug != SLUG) {
+        handleCreateAgenda();
+      }
+    } catch (e) {
+      console.error("Error fetching agenda:", e);
     }
   };
 
-const handleAddContact = async (e) => {
-	e.preventDefault();
-	try {
-	  const createdContact = await Services.addContact(newContact);
-	  dispatch({ 
-		type: "addContact", 
-		payload: { contact: createdContact } 
-	  });
-	  setNewContact({ full_name: "", email: "", phone: "", address: "" });
-	  setIsModalOpen(false);
-	  await handleFetchContacts(); // Refresh the list
-	} catch (error) {
-	  console.error("Error adding contact:", error);
-	}
+  const handleCreateAgenda = async () => {
+    try {
+      const agenda = await Services.createAgenda();
+      dispatch({ type: "createAgenda", payload: { agenda } });
+    }
+    catch (e) {
+      console.error("Error creating agenda:", e);
+    }
   };
-  
+
+  const handleAddContact = async (e) => {
+    e.preventDefault();
+    try {
+      const createdContact = await Services.addContact(newContact);
+      dispatch({ 
+        type: "addContact",
+        payload: { contact: createdContact } 
+      });
+      /* dispatch({type: "addContact", contact: createdContact}); */
+      setNewContact({ name: "", email: "", phone: "", address: "" });
+      setIsModalOpen(false);
+    } catch (e) {
+      console.error("Error adding contact:", e);
+    }
+  };
+
   const handleUpdateContact = async (contactId, updatedData) => {
 	try {
 	  const updatedContact = await Services.updateContact(contactId, updatedData);
@@ -51,8 +63,8 @@ const handleAddContact = async (e) => {
 		type: "updateContact",
 		payload: { contact: updatedContact }
 	  });
-	} catch (error) {
-	  console.error("Error updating contact:", error);
+	} catch (e) {
+	  console.error("Error updating contact:", e);
 	}
   };
   
@@ -68,19 +80,29 @@ const handleAddContact = async (e) => {
 	}
   };
 
+  const handleDeleteAgenda = async () => {
+    try {
+      await Services.deleteAgenda();
+      dispatch({ type: "deleteAgenda" });
+    } catch (e) {
+      console.error("Error deleting agenda:", e);
+    }
+  };
+
   return (
     <div className="container">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1>Contact List</h1>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="btn btn-primary"
-        >
-          Add New Contact
-        </button>
+      <div className="justify-content-between align-items-center mb-4">
+        <h1 className="text-center bg-secondary">Luis Oballos' Contact List</h1>
+        <div className="d-flex justify-content-between">
+          <h2>Contact List</h2>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="btn btn-primary"
+          >
+            Add New Contact
+          </button>
+          </div>
       </div>
-
-      <ContactList contacts={store.contacts} />
 
       {isModalOpen && (
         <div className="modal show" style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}>
@@ -101,9 +123,9 @@ const handleAddContact = async (e) => {
                     <input
                       type="text"
                       className="form-control"
-                      value={newContact.full_name}
+                      value={newContact.name}
                       onChange={(e) =>
-                        setNewContact({ ...newContact, full_name: e.target.value })
+                        setNewContact({ ...newContact, name: e.target.value })
                       }
                       required
                     />
@@ -162,7 +184,13 @@ const handleAddContact = async (e) => {
           </div>
         </div>
       )}
-    </div>
+      <button onClick={handleFetchAgenda} className="btn btn-secondary">
+        Refresh Agenda
+      </button>
+      <button onClick={handleDeleteAgenda} className="btn btn-danger">
+        Delete Agenda
+      </button>
+      </div>
   );
 };
 

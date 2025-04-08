@@ -1,15 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 
-export const ContactCard = ({ contact }) => {
-  const { store, dispatch } = useGlobalReducer()
+export const ContactCard = () => {
+  const { store } = useGlobalReducer()
   return (
-    <div className="contact-card">
-      <h3>{contact.name}</h3>
-      <p>Email: {contact.phone}</p>
-      <p>Phone: {contact.email}</p>
-      <p>Address: {contact.address}</p>
-    </div>
+    <div key={store.contact.id} className="contact-card">
+        <h3>{store.contact.name}</h3>
+        <p>Email: {store.contact.email}</p>
+        <p>Phone: {store.contact.phone}</p>
+        <p>Address: {store.contact.address}</p>
+      </div>
   );
 };
 

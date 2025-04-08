@@ -6,6 +6,7 @@ import {
 import { Layout } from "./pages/Layout";
 import ContactCard from "./components/ContactCard";
 import ContactList from "./components/ContactList";
+import App from "./pages/App";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(

@@ -10,13 +10,13 @@ export default function storeReducer(store, action) {
     case "fetchAgenda":
       return {
         ...store,
-        agenda: action.payload.agenda || "",
+        contacts: action.contacts,
       };
 
     case "createAgenda":
       return {
-        ...store,
-        agenda: action.payload.agenda,
+        /* ...store, */
+        
       };
 
     case "fetchContacts":
@@ -30,6 +30,11 @@ export default function storeReducer(store, action) {
         ...store,
         contacts: [...store.contacts, action.payload.contact],
       };
+    /* case "addContact":
+      return {
+        ...store,
+        contacts: [...store.contacts, ...action.contact],
+      }; */
 
     case "updateContact":
       return {

@@ -5,11 +5,11 @@ export const ContactList = () => {
   const { store } = useGlobalReducer();
 
   return (
-    <div className="contact-list">
+    <div className="contact-list d-flex">
       {store.contacts.length > 0 ? (
         store.contacts.map((contact) => (
           <div key={contact.id} className="contact-card">
-            <h3>{contact.full_name}</h3>
+            <h3>{contact.name}</h3>
             <p>Email: {contact.email}</p>
             <p>Phone: {contact.phone}</p>
             <p>Address: {contact.address}</p>
