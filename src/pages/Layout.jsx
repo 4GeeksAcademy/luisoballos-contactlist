@@ -8,7 +8,6 @@ export const Layout = () => {
         <div className="container mx-auto">
             <Navbar />
             <App />
-            <ContactList />
             <Footer />
         </div>
     )

@@ -4,7 +4,7 @@ export const Navbar = () => {
 
 	return (
 		<>
-			<nav className="navbar navbar-light bg-light">
+			<nav className="navbar navbar-light bg-secondary m-3">
 				<div className="container">
 					<Link to="/contacts">
 						<span className="navbar-brand mb-0 h1">Home</span>

@@ -30,11 +30,6 @@ export default function storeReducer(store, action) {
         ...store,
         contacts: [...store.contacts, action.payload.contact],
       };
-    /* case "addContact":
-      return {
-        ...store,
-        contacts: [...store.contacts, ...action.contact],
-      }; */
 
     case "updateContact":
       return {

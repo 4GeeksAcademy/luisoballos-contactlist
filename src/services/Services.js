@@ -51,11 +51,11 @@ export const Services = {
     }
   },
 
-  updateContact: async (contact) => {
+  updateContact: async (contactId, updContact) => {
     try {
-      const request = await fetch(`${BASE_URL}/contacts/${contact.id}`, {
+      const request = await fetch(`${BASE_URL}/contacts/${contactId}`, {
         method: "PUT",
-        body: JSON.stringify(contact),
+        body: JSON.stringify(updContact),
         headers: { "Content-Type": "application/json" },
       });
       const updatedContact = await request.json();
@@ -65,9 +65,9 @@ export const Services = {
     }
   },
 
-  deleteContact: async (contact) => {
+  deleteContact: async (contactId) => {
     try {
-      const request = await fetch(`${BASE_URL}/contacts/${contact.id}`, {
+      const request = await fetch(`${BASE_URL}/contacts/${contactId}`, {
         method: "DELETE",
       });
       return request.ok;
