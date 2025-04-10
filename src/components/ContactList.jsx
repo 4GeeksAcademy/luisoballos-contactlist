@@ -32,7 +32,6 @@ export const ContactList = ({ openEditModal }) => {
 
   return (
     <div className="container mt-4 w-75">
-      {/* Delete Confirmation Modal */}
       {showDeleteModal && (
         <div className="modal show" style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}>
           <div className="modal-dialog">
@@ -68,8 +67,6 @@ export const ContactList = ({ openEditModal }) => {
           </div>
         </div>
       )}
-
-      {/* Contact List */}
       {store.contacts.length > 0 ? (
         store.contacts.map((contact) => (
           <div
