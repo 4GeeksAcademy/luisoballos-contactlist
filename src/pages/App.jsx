@@ -16,8 +16,18 @@ export const App = () => {
   });
 
   useEffect(() => {
-    handleFetchAgenda();
+    handleFetchAgendas();
   }, []);
+  const handleFetchAgendas = async () => {
+    try {
+      const agendas = Services.fetchAgendas();
+      if(agendas.find(agendas.SLUG)) {
+        handleFetchAgenda();
+      }
+    } catch (e) {
+      console.error("Error fetching agendas:", e);
+    }
+  }
 
   const handleFetchAgenda = async () => {
     try {

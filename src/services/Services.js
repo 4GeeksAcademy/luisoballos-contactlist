@@ -1,7 +1,19 @@
 export const SLUG = "luisoballos";
+const AGENDA_URL = "https://playground.4geeks.com/contact/agendas"
 const BASE_URL = `https://playground.4geeks.com/contact/agendas/${SLUG}`;
 
 export const Services = {
+  fetchAgendas: async () => {
+    try {
+      const request = await fetch(AGENDAS_URL);
+      const response = await request.json();
+      return response, SLUG;
+    } catch (e) {
+      console.log("Error fetching agendas: ", e);
+        return [];
+    }
+  },
+
   fetchAgenda: async () => {
     try {
       const request = await fetch(BASE_URL);
